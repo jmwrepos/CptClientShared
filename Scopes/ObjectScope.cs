@@ -14,14 +14,13 @@ namespace CptClientShared.Scopes
             Name = obj.Name;
             ChildObjects = new();
             ObjectTypes = new();            
-            foreach(CptObjectType objType in obj.ObjectTypes)
+            foreach (CptObjectType objType in obj.ObjectTypes)
             {
-                foreach(CptObjectType listed in objType.DumpLineage())
+                CptObjectType? otSlot = objType;
+                while(otSlot != null)
                 {
-                    if (!ObjectTypes.Contains(listed.Name))
-                    {
-                        ObjectTypes.Add(listed.Name);
-                    }
+                    ObjectTypes.Add(otSlot.Name);
+                    otSlot = otSlot.ParentType;
                 }
             }
             foreach(CptObject child in obj.Children)

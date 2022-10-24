@@ -51,7 +51,11 @@ namespace CptClientShared.Entities
             response.Add(this);
             if(ParentType != null)
             {
-                ParentType.DumpLineage(response);
+                response.AddRange(ParentType.DumpLineage(response));
+            }
+            if(Name == "Crimson")
+            {
+                Console.WriteLine("Index");
             }
             return response;
         }
