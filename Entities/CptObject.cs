@@ -18,6 +18,7 @@ namespace CptClientShared.Entities
         public int? ParentId { get; set; }
         public virtual CptObject? Parent { get; set; }
         public virtual List<CptObject> Children { get; set; }
+        public virtual List<CptObjectProperty> ObjectProperties { get; set; }
         public CptObject()
         {
             ObjectTypes = new();
@@ -26,6 +27,7 @@ namespace CptClientShared.Entities
             Name = String.Empty;
             Library = null!;
             Parent = null!;
+            ObjectProperties = new();
         }
     }
 }

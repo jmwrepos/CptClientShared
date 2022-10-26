@@ -8,12 +8,14 @@ namespace CptClientShared.Scopes
         public string Name { get; set; }
         public List<string> ObjectTypes { get; set; }
         public List<ObjectScope> ChildObjects { get; set; }
+        public List<ObjPropScope> ObjectProperties { get; set; }
         public ObjectScope(CptObject obj)
         {
             Id = obj.Id;
             Name = obj.Name;
             ChildObjects = new();
-            ObjectTypes = new();            
+            ObjectTypes = new();
+            ObjectProperties = new();
             foreach (CptObjectType objType in obj.ObjectTypes)
             {
                 CptObjectType? otSlot = objType;
@@ -27,6 +29,10 @@ namespace CptClientShared.Scopes
             {
                 ChildObjects.Add(new(child));
             }
+            foreach(CptObjectProperty objProp in obj.ObjectProperties)
+            {
+                ObjectProperties.Add(new(objProp));
+            }
         }
 
         public ObjectScope()
@@ -34,6 +40,7 @@ namespace CptClientShared.Scopes
             Name = String.Empty;
             ChildObjects = new();
             ObjectTypes = new();
+            ObjectProperties = new();
         }
 
         internal List<ObjectScope> DumpChildren(bool includeChildren = true)

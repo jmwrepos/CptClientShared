@@ -1,9 +1,4 @@
 ﻿using CptClientShared.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CptClientShared.Scopes
 {
@@ -13,6 +8,7 @@ namespace CptClientShared.Scopes
         public List<CptLibrary> Libraries { get; set; }
         public List <CptObject> Objects { get; set; }
         public List<CptObjectType> ObjectTypes { get; set; }
+        public List<CptProperty> Properties { get; set; }
         public ResultId ResultId { get; set; }
         public DbSearchResult(bool found, ResultId resultId, List<CptLibrary> libraries = null!, List<CptObject> objects = null!)
         {
@@ -21,6 +17,7 @@ namespace CptClientShared.Scopes
             Objects = objects;
             ResultId = resultId;
             ObjectTypes = null!;
+            Properties = null!;
         }
         public DbSearchResult(bool found, ResultId resultId, List<CptObjectType> objTypes = null!)
         {
@@ -29,6 +26,16 @@ namespace CptClientShared.Scopes
             Objects = null!;
             ResultId = resultId;
             ObjectTypes = objTypes;
+            Properties = null!;
+        }
+
+        public static DbSearchResult PropFound(CptProperty found)
+        {
+            return new(ResultId.Success)
+            {
+                Properties = new() { found },
+                Found = true
+            };
         }
         public DbSearchResult(ResultId resultId)
         {
@@ -37,10 +44,12 @@ namespace CptClientShared.Scopes
             Libraries = null!;
             Objects = null!;
             ObjectTypes = null!;
+            Properties = null!;
         }
         public static DbSearchResult LibNotFound => new(ResultId.LibNotFound);
         public static DbSearchResult ObjNotInLib => new(ResultId.ObjNotInLib);
         public static DbSearchResult ObjTypeNotFound => new(ResultId.ObjTypeNotFound);
+        public static DbSearchResult PropNotFound => new(ResultId.PropNotFound);
     }
     public enum ResultId
     {
@@ -48,6 +57,7 @@ namespace CptClientShared.Scopes
         Success,
         LibNotFound,
         ObjNotInLib,
-        ObjTypeNotFound
+        ObjTypeNotFound,
+        PropNotFound
     }
 }

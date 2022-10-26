@@ -13,6 +13,7 @@ namespace CptClientShared.Scopes
         public string Name { get; set; }
         public List<ObjectScope> Objects { get; set; }
         public List<ObjectTypeScope> Types { get; set; }
+        public List<PropertyScope> Properties { get; set; }
         public LibraryScope(CptLibrary library)
         {
             Name = library.Name;
@@ -25,8 +26,12 @@ namespace CptClientShared.Scopes
             Types = new();
             foreach (CptObjectType objType in library.ObjectTypes)
             {
-                ObjectTypeScope objTypeScope = new(objType);
-                Types.Add(objTypeScope);
+                Types.Add(new(objType));
+            }
+            Properties = new();
+            foreach(CptProperty property in library.Properties)
+            {
+                Properties.Add(new(property));
             }
         }
 
@@ -35,6 +40,7 @@ namespace CptClientShared.Scopes
             Name = String.Empty;
             Objects = new();
             Types = new();
+            Properties = new();
         }
         public List<ObjectScope> DumpAllObjects()
         {
