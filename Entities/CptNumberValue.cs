@@ -9,9 +9,17 @@ namespace CptClientShared.Entities
     public class CptNumberValue
     {
         public int Id { get; set; }
+        public double Value { get; set; }
+        public virtual int OwnerId { get; set; }
+        public virtual CptObjectProperty Owner { get; set; }
         public CptNumberValue()
         {
-
+            Owner = null!;
+        }
+        public CptNumberValue(double value)
+        {
+            Value = value;
+            Owner = null!;
         }
     }
 }

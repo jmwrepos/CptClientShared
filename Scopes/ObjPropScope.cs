@@ -21,6 +21,18 @@ namespace CptClientShared.Scopes
             StringValues = new();
             NumberValues = new();
             ObjNameValues = new();
+            foreach(CptStringValue sv in objProp.StringValues)
+            {
+                StringValues.Add(sv.Value);
+            }
+            foreach(CptNumberValue nv in objProp.NumberValues)
+            {
+                NumberValues.Add(nv.Value);
+            }
+            foreach (CptObjectNameValue onv in objProp.ObjNameValues)
+            {
+                ObjNameValues.Add(onv.Value);
+            }
         }
         public ObjPropScope()
         {

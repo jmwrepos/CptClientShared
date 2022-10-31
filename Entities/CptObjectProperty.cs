@@ -15,10 +15,16 @@ namespace CptClientShared.Entities
         public int ObjectId { get; set; }
         public virtual CptObject Object { get; set; }
         internal string ObjectName => Object.Name;
+        public virtual List<CptStringValue> StringValues { get; set; }
+        public virtual List<CptObjectNameValue> ObjNameValues { get; set; }
+        public virtual List<CptNumberValue> NumberValues { get; set; }
         public CptObjectProperty()
         {
             Property = null!;
             Object = null!;
+            StringValues = new();
+            ObjNameValues = new();
+            NumberValues = new();
         }
     }
 }

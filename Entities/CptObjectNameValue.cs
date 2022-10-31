@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace CptClientShared.Entities
 {
-    public class CptStringValue
+    public class CptObjectNameValue
     {
         public int Id { get; set; }
         public string Value { get; set; }
         public virtual int OwnerId { get; set; }
         public virtual CptObjectProperty Owner { get; set; }
-        public CptStringValue()
+        public CptObjectNameValue()
         {
             Value = String.Empty;
             Owner = null!;
         }
-        public CptStringValue(string value)
+        public CptObjectNameValue(string value)
         {
             Value = value;
             Owner = null!;
