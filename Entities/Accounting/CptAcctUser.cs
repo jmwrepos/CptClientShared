@@ -26,6 +26,7 @@ namespace CptClientShared.Entities.Accounting
         public string PrimaryPhone { get; set; } = string.Empty;
         public string SecondaryPhone { get; set; } = string.Empty;
         public bool Active { get; set; }
+        public byte[] UserIV { get; set; } = Array.Empty<byte>();
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             Regex emailReg = new(@"(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})");

@@ -16,5 +16,8 @@ namespace CptClientShared.Entities.Accounting
         public virtual List<CptAcctUser> Users { get; set; } = new();
         [Required]
         public string AccountName { get; set; } = string.Empty;
+        public byte[] EncryptionKey { get; set; } = Array.Empty<byte>();
+        public virtual List<CptLibrary> Libraries { get; set; } = new();
+        public bool Active { get; set; }
     }
 }
