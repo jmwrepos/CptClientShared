@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CptClientShared.Entities.Vals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CptClientShared.Entities
+namespace CptClientShared.Entities.Structure
 {
     public class CptObjectProperty
     {
@@ -18,6 +19,8 @@ namespace CptClientShared.Entities
         public virtual List<CptStringValue> StringValues { get; set; }
         public virtual List<CptObjectNameValue> ObjNameValues { get; set; }
         public virtual List<CptNumberValue> NumberValues { get; set; }
+        public virtual List<CptBytesValue> BytesValues { get; set; }
+        public virtual List<BoolValues> BoolValues { get; set; }
         public CptObjectProperty()
         {
             Property = null!;
@@ -25,6 +28,8 @@ namespace CptClientShared.Entities
             StringValues = new();
             ObjNameValues = new();
             NumberValues = new();
+            BytesValues = new();
+            BoolValues = new();
         }
     }
 }

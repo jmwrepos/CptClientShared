@@ -11,6 +11,13 @@ namespace CptClientShared.Entities.Accounting
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public virtual List<CptAccount> Accounts { get; set; } = new();
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
+        public CptAcctType()
+        {
+        }
+        public CptAcctType(string name)
+        {
+            Name = name;
+        }
     }
 }

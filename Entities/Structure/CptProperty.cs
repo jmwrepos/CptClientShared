@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CptClientShared.Entities
+namespace CptClientShared.Entities.Structure
 {
     public class CptProperty
     {
@@ -15,7 +15,13 @@ namespace CptClientShared.Entities
         public virtual CptLibrary Library { get; set; }
         public CptProperty()
         {
-            Name = String.Empty;
+            Name = string.Empty;
+            Library = null!;
+            ObjectProperties = new();
+        }
+        public CptProperty(string name)
+        {
+            Name = name;
             Library = null!;
             ObjectProperties = new();
         }

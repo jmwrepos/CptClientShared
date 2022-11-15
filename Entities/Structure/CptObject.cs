@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CptClientShared.Entities
+namespace CptClientShared.Entities.Structure
 {
     public class CptObject
     {
@@ -24,7 +24,7 @@ namespace CptClientShared.Entities
             ObjectTypes = new();
             Library = null!;
             Children = new();
-            Name = String.Empty;
+            Name = string.Empty;
             Library = null!;
             Parent = null!;
             ObjectProperties = new();

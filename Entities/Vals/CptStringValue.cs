@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CptClientShared.Entities.Structure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CptClientShared.Entities
+namespace CptClientShared.Entities.Vals
 {
     public class CptStringValue
     {
@@ -14,7 +15,7 @@ namespace CptClientShared.Entities
         public virtual CptObjectProperty Owner { get; set; }
         public CptStringValue()
         {
-            Value = String.Empty;
+            Value = string.Empty;
             Owner = null!;
         }
         public CptStringValue(string value)

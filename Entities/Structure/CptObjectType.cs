@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CptClientShared.Entities
+namespace CptClientShared.Entities.Structure
 {
     public class CptObjectType
     {
@@ -18,7 +18,7 @@ namespace CptClientShared.Entities
         public virtual List<CptObject> Objects { get; set; }
         public CptObjectType()
         {
-            Name = String.Empty;
+            Name = string.Empty;
             ParentType = null!;
             ParentLibrary = null!;
             Children = new();
@@ -49,11 +49,11 @@ namespace CptClientShared.Entities
         {
             List<CptObjectType> response = new();
             response.Add(this);
-            if(ParentType != null)
+            if (ParentType != null)
             {
                 response.AddRange(ParentType.DumpLineage(response));
             }
-            if(Name == "Crimson")
+            if (Name == "Crimson")
             {
                 Console.WriteLine("Index");
             }
