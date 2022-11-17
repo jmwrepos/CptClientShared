@@ -16,6 +16,7 @@ namespace CptClientShared.Entities.Structure
         public virtual CptObjectType? ParentType { get; set; }
         public virtual List<CptObjectType> Children { get; set; }
         public virtual List<CptObject> Objects { get; set; }
+        public virtual List<CptProperty> Properties { get; set; }
         public CptObjectType()
         {
             Name = string.Empty;
@@ -23,6 +24,7 @@ namespace CptClientShared.Entities.Structure
             ParentLibrary = null!;
             Children = new();
             Objects = new();
+            Properties = new();
         }
         public CptObjectType(string name)
         {
@@ -31,6 +33,7 @@ namespace CptClientShared.Entities.Structure
             ParentLibrary = null!;
             Children = new();
             Objects = new();
+            Properties = new();
         }
         internal List<CptObjectType> DumpChildren(bool includeChildren = true)
         {

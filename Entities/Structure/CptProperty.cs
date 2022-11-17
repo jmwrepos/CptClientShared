@@ -13,17 +13,20 @@ namespace CptClientShared.Entities.Structure
         public virtual List<CptObjectProperty> ObjectProperties { get; set; }
         public int LibraryId { get; set; }
         public virtual CptLibrary Library { get; set; }
+        public virtual List<CptObjectType> ObjectTypes { get; set; }
         public CptProperty()
         {
             Name = string.Empty;
             Library = null!;
             ObjectProperties = new();
+            ObjectTypes = new();
         }
         public CptProperty(string name)
         {
             Name = name;
             Library = null!;
             ObjectProperties = new();
+            ObjectTypes = new();
         }
     }
 }

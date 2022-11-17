@@ -20,7 +20,7 @@ namespace CptClientShared.Entities.Structure
         public virtual List<CptObjectNameValue> ObjNameValues { get; set; }
         public virtual List<CptNumberValue> NumberValues { get; set; }
         public virtual List<CptBytesValue> BytesValues { get; set; }
-        public virtual List<BoolValues> BoolValues { get; set; }
+        public virtual List<CptBoolValues> BoolValues { get; set; }
         public CptObjectProperty()
         {
             Property = null!;

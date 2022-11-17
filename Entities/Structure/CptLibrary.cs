@@ -1,4 +1,5 @@
 ﻿using CptClientShared.Entities.Accounting;
+using CptClientShared.QueryForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,9 +23,42 @@ namespace CptClientShared.Entities.Structure
         {
             Name = string.Empty;
             Objects = new();
-            ObjectTypes = new() { new("root") };
+            ObjectTypes = new();
             Properties = new();
             Account = null!;
+        }
+        internal void Configure(DbConfig2 cptConfig)
+        {
+            Name = cptConfig.LibraryName;
+            List<string> newProps = new();
+            foreach(string prop in cptConfig.Properties)
+            {
+                Properties.Add(new(prop));
+            }
+
+            foreach(ObjTypeCfg2 subCfg in cptConfig.ObjectTypes)
+            {
+                CptObjectType? parent = ObjectTypes.Where(ot => ot.Name == subCfg.Name).FirstOrDefault();
+                CptObjectType newType = new()
+                {
+                    Name = subCfg.Name,
+                    ParentLibrary = this,
+                    ParentType = parent,
+                    Properties = GetPropList(subCfg.DefaultProperties).ToList()
+                };
+                foreach(CptProperty prop in newType.Properties)
+                {
+                    prop.ObjectTypes.Add(newType);
+                }
+            }
+        }
+
+        private IEnumerable<CptProperty> GetPropList(List<string> defaultProperties)
+        {
+            foreach(string prop in defaultProperties)
+            {
+                yield return Properties.Where(p => p.Name == prop).First();
+            }
         }
     }
 }
