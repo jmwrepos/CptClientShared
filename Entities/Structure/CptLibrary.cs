@@ -27,30 +27,13 @@ namespace CptClientShared.Entities.Structure
             Properties = new();
             Account = null!;
         }
-        internal void Configure(DbConfig2 cptConfig)
+        public CptLibrary(string name)
         {
-            Name = cptConfig.LibraryName;
-            List<string> newProps = new();
-            foreach(string prop in cptConfig.Properties)
-            {
-                Properties.Add(new(prop));
-            }
-
-            foreach(ObjTypeCfg2 subCfg in cptConfig.ObjectTypes)
-            {
-                CptObjectType? parent = ObjectTypes.Where(ot => ot.Name == subCfg.Name).FirstOrDefault();
-                CptObjectType newType = new()
-                {
-                    Name = subCfg.Name,
-                    ParentLibrary = this,
-                    ParentType = parent,
-                    Properties = GetPropList(subCfg.DefaultProperties).ToList()
-                };
-                foreach(CptProperty prop in newType.Properties)
-                {
-                    prop.ObjectTypes.Add(newType);
-                }
-            }
+            Name = name;
+            Objects = new();
+            ObjectTypes = new();
+            Properties = new();
+            Account = null!;
         }
 
         private IEnumerable<CptProperty> GetPropList(List<string> defaultProperties)

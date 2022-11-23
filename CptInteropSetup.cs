@@ -1,12 +1,6 @@
-﻿using CptClientShared;
-using CptClientShared.Entities.Accounting;
+﻿using CptClientShared.Entities.Accounting;
 using CptClientShared.Entities.Structure;
 using CptClientShared.QueryForms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CptClientShared
 {
@@ -17,15 +11,15 @@ namespace CptClientShared
         {
             _dbProvider = dbProvider;
         }
-        public bool DbExists()
+        public async Task<bool> DbExists()
         {
             try
             {
                 CptAccount testobj1 = new();
                 _dbProvider.CurrentContext.Add(testobj1);
-                _dbProvider.CurrentContext.SaveChanges();
+                await _dbProvider.CurrentContext.SaveChangesAsync();
                 _dbProvider.CurrentContext.Remove(testobj1);
-                _dbProvider.CurrentContext.SaveChanges();
+                await _dbProvider.CurrentContext.SaveChangesAsync();
                 return true;
             }
             catch
@@ -34,43 +28,66 @@ namespace CptClientShared
             }
 
         }
-        public void DbSetup(DbConfig2 config, QueryResponse qr)
+        public async Task DbSetup(DbConfig2 config, QueryResponse qr)
         {
             try
             {
+                config.Save();
                 ConceptContext db = _dbProvider.NewContext();
-                if (config.EnsureDeleted)
+                db.Database.EnsureCreated();
+                db = _dbProvider.NewContext();
+                List<CptAccount> accounts = db.Accounts.ToList();
+                for(int i = 0; i < accounts.Count; i++)
                 {
-                    qr.AddMessage("Deleting Database.");
-                    db.Database.EnsureDeleted();
+                    CptAccount acct = accounts[i];
+                    db.Remove(acct);
                 }
-                if (!DbExists())
+                await db.SaveChangesAsync();
+
+                if (!db.Database.CanConnect())
                 {
-                    qr.AddMessage("Ensuring Database Exists.");
-                    db.Database.EnsureCreated();
+                    throw new InvalidOperationException($"Cannot connect to Db.");
                 }
+
                 qr.AddMessage("Ensuring default account exists.");
                 bool defaultAcct = AcctExists(config.AccountName);
                 if (!defaultAcct)
                 {
                     qr.AddMessage("Adding Default Account.");
-                    CptAccount defaultAccount = new();
+                    CptAccount defaultAccount = new(config);
                     qr.AddAccount(defaultAccount);
-                    defaultAccount.Configure(config);
                     db.Accounts.Add(defaultAccount);
+                    await SaveOnSuccess(qr, "ConceptDb Configured.");
                 }
-                SaveOnSuccess(qr, "ConceptDb Configured.");
+                db = _dbProvider.NewContext();
             }
             catch(Exception e)
             {
                 FailOnException(qr, e);
             }
         }
-        private void SaveOnSuccess(QueryResponse qr, string msg)
+
+        internal bool DefaultAccountExists()
+        {
+            DbConfig2 cfg = DbConfig2.Load();
+            ConceptContext db = _dbProvider.CurrentContext;
+            
+            CptAccount? acct = db.Accounts
+                .Where(a => a.AccountName == cfg.AccountName)
+                .FirstOrDefault();
+
+            if(acct != null && acct.Active == true && acct.Users.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private async Task SaveOnSuccess(QueryResponse qr, string msg)
         {
             try
             {
-                _dbProvider.CurrentContext.SaveChanges();
+                await _dbProvider.CurrentContext.SaveChangesAsync();
                 qr.Success = true;
                 qr.AddMessage(msg);
             }

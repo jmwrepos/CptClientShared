@@ -24,11 +24,8 @@ namespace CptClientShared
         //REMAINING CODE BELOW
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            DbConfig2 cfg = DbConfig2.Load;
-            string connString = cfg.ConnectionString;
-            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connString).EnableSensitiveDataLogging();
+            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(Environment.GetEnvironmentVariable("cpConnString")!).EnableSensitiveDataLogging();
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

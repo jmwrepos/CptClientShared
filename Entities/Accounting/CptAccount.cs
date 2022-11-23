@@ -18,13 +18,11 @@ namespace CptClientShared.Entities.Accounting
         public byte[] EncryptionKey { get; set; } = Array.Empty<byte>();
         public virtual List<CptLibrary> Libraries { get; set; } = new();
         public bool Active { get; set; }
-        public CptAccount()
-        {
-
-        }
-        internal void Configure(DbConfig2 cfg)
+        public CptAccount(DbConfig2 cfg)
         {
             EncryptionKey = ApiEncryption.NewKey();
+            AccountName = cfg.AccountName;
+            Active = true;
             CptAcctUser acctUser = new()
             {
                 Account = this,
@@ -36,15 +34,10 @@ namespace CptClientShared.Entities.Accounting
             };
             Users.Add(acctUser);
             acctUser.SetPassword(EncryptionKey, cfg.Password);
+        }
+        public CptAccount()
+        {
 
-
-            CptLibrary newLibrary = new()
-            {
-                Account = this,
-                Name = cfg.LibraryName
-            };
-            Libraries.Add(newLibrary);
-            newLibrary.Configure(cfg);
         }
     }
 }

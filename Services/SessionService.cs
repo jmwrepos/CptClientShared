@@ -1,12 +1,6 @@
-﻿using CptClientShared;
-using CptClientShared.Entities.Accounting;
+﻿using CptClientShared.Entities.Accounting;
 using CptClientShared.QueryForms;
 using CptClientShared.Services.ServiceEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CptClientShared.Services
 {
@@ -17,6 +11,11 @@ namespace CptClientShared.Services
         public SessionService(CptDbProvider dbProvider)
         {
             _dbProvider = dbProvider;
+        }
+
+        public CpSession? GetSession(string sid)
+        {
+            return _sessions[sid];
         }
         public CptAuthResult AuthenticateUser(CptAcctUser user, QfAuthenticateUser form)
         {

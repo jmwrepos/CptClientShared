@@ -30,5 +30,18 @@ namespace CptClientShared.Entities.Structure
             Parent = null!;
             ObjectProperties = new();
         }
+
+        public CptObject(string name)
+        {
+            ObjectTypes = new();
+            Library = null!;
+            Children = new();
+            Name = name;
+            Library = null!;
+            Parent = null!;
+            ObjectProperties = new();
+        }
+
+        public CptObjectProperty? GetObjProp(string propName) => ObjectProperties.Where(op => op.PropertyName == propName).FirstOrDefault();
     }
 }
