@@ -32,6 +32,53 @@ namespace CptClientShared.QueryForms
                     "PrimaryPhone",
                     "UserRole"
                 }),
+                new CptTypeCfg("CpClient", null, new()
+                {
+                    "ClientName",
+                    "AddrStreet",
+                    "AddrLine2",
+                    "City",
+                    "State",
+                    "Zip",
+                    "Email",
+                    "Phone1",
+                    "Phone2",
+                }),
+                new CptTypeCfg("CpSite", null, new()
+                {
+                    "SiteName",
+                    "AddrStreet",
+                    "AddrLine2",
+                    "City",
+                    "State",
+                    "Zip",
+                    "Timezone",
+                    "AcresParking",
+                    "AcresWalk"
+                }),
+                new CptTypeCfg("CpPropertyManager", null, new()
+                {
+                    "FirstName",
+                    "LastName",
+                    "PrimaryPhone",
+                    "Phone1",
+                    "Phone2",
+                    "Fax"
+                }),
+                new CptTypeCfg("CpService", null, new()
+                {
+                    "ServiceName",
+                }),
+                new CptTypeCfg("CpInfoChecklistItem", null, new()
+                {
+                    "ListItemValue",
+                }),
+                new CptTypeCfg("CpNote", null, new()
+                {
+                    "CreatedBy",
+                    "CreatedOn",
+                    "Message"
+                })
             };
         }
     }

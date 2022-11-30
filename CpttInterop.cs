@@ -56,6 +56,11 @@ namespace CptClientShared
             }
         }
 
+        public async Task UserSaveAsync()
+        {
+            await Task.Run(() => UserSave());
+        }
+
         public async Task DbSetup(DbConfig2 configForm, QueryResponse qr) => await _iSetup.DbSetup(configForm, qr);
         public CpSession? Authenticate(string userId, string tryPassword)
         {

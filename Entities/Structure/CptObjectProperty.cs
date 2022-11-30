@@ -25,98 +25,63 @@ namespace CptClientShared.Entities.Structure
         {
             Property = null!;
             Object = null!;
-            StringValues = new();
-            ObjNameValues = new();
-            NumberValues = new();
-            BytesValues = new();
-            BoolValues = new();
+            StringValues = new() { new(string.Empty) };
+            ObjNameValues = new() { new(string.Empty)};
+            NumberValues = new() { new(0) };
+            BytesValues = new() { new(Array.Empty<byte>()) };
+            BoolValues = new() { new(false) };
         }
-        public string? FirstStringValue(bool objName = false)
+        public string FirstStringValue(bool objName = false)
         {
             if (objName)
             {
-                if (ObjNameValues.Count == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    return ObjNameValues[0].Value;
-                }
+                 return ObjNameValues[0].Value;
             }
             else
             {
-                if (StringValues.Count == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    return StringValues[0].Value;
-                }
+                return StringValues[0].Value;
             }
         }
 
-        public double? FirstNumberValue()
+        public double FirstNumberValue()
         {
-            if (NumberValues.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return NumberValues[0].Value;
-            }
+            return NumberValues[0].Value;
         }
 
-        public bool? FirstBoolValue()
+        public bool FirstBoolValue()
         {
-            if (BoolValues.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return BoolValues[0].Value;
-            }
+            return BoolValues[0].Value;
         }
-        public byte[]? FirstBytesValue()
+        public byte[] FirstBytesValue()
         {
-            if (BytesValues.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                return BytesValues[0].Value;
-            }
+            return BytesValues[0].Value;
         }
         public void SetSingleValue(string value, bool objName = false)
         {
             if (objName)
             {
-                ObjNameValues = new() { new(value) };
+                ObjNameValues[0].Value = value;
             }
             else
             {
-                StringValues = new() { new(value) };
+                StringValues[0].Value = value;
             }
         }
         public void SetSingleValue(double value)
         {
-            NumberValues = new() { new(value) };
+            NumberValues[0].Value = value;
         }
         public void SetSingleValue(int value)
         {
-            NumberValues = new() { new(value) };
+            NumberValues[0].Value = value;
         }
         public void SetSingleValue(bool value)
         {
-            BoolValues = new() { new(value) };
+            BoolValues[0].Value = value; ;
         }
         public void SetSingleValue(byte[] value)
         {
-            BytesValues = new() { new(value) };
+            BytesValues[0].Value = value; ;
         }
     }
 }

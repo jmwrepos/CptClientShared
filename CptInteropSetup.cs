@@ -36,13 +36,7 @@ namespace CptClientShared
                 ConceptContext db = _dbProvider.NewContext();
                 db.Database.EnsureCreated();
                 db = _dbProvider.NewContext();
-                List<CptAccount> accounts = db.Accounts.ToList();
-                for(int i = 0; i < accounts.Count; i++)
-                {
-                    CptAccount acct = accounts[i];
-                    db.Remove(acct);
-                }
-                await db.SaveChangesAsync();
+                await DeleteExistingAll(db);
 
                 if (!db.Database.CanConnect())
                 {
@@ -65,6 +59,41 @@ namespace CptClientShared
             {
                 FailOnException(qr, e);
             }
+        }
+
+        private async Task DeleteExistingAll(ConceptContext db)
+        {
+            List<CptAccount> accounts = db.Accounts.ToList();
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                CptAccount acct = accounts[i];
+                foreach (CptLibrary objLib in acct.Libraries)
+                {
+                    foreach (CptObject obj in objLib.Objects)
+                    {
+                        foreach (CptObjectProperty objProp in obj.ObjectProperties)
+                        {
+                            db.Remove(objProp); ;
+                        }
+                        db.Remove(obj);
+                    }
+                    foreach (CptProperty prop in objLib.Properties)
+                    {
+                        db.Remove(prop);
+                    }
+                    foreach (CptObjectType ot in objLib.ObjectTypes)
+                    {
+                        db.Remove(ot);
+                    }
+                    db.Remove(objLib);
+                }
+                foreach (CptAcctUser user in acct.Users)
+                {
+                    db.Remove(user);
+                }
+                db.Remove(acct);
+            }
+            await db.SaveChangesAsync();
         }
 
         internal bool DefaultAccountExists()
