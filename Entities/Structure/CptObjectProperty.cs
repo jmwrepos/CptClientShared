@@ -25,63 +25,76 @@ namespace CptClientShared.Entities.Structure
         {
             Property = null!;
             Object = null!;
-            StringValues = new() { new(string.Empty) };
-            ObjNameValues = new() { new(string.Empty)};
-            NumberValues = new() { new(0) };
-            BytesValues = new() { new(Array.Empty<byte>()) };
-            BoolValues = new() { new(false) };
+            StringValues = new() { };
+            ObjNameValues = new() { };
+            NumberValues = new() { };
+            BytesValues = new() { };
+            BoolValues = new() { };
         }
-        public string FirstStringValue(bool objName = false)
+        public string FirstStringValue()
         {
-            if (objName)
+            CptStringValue? val = StringValues.FirstOrDefault();
+            if(val != null)
             {
-                 return ObjNameValues[0].Value;
+                return val.Value;
             }
-            else
-            {
-                return StringValues[0].Value;
-            }
+            return string.Empty;
         }
 
         public double FirstNumberValue()
         {
-            return NumberValues[0].Value;
-        }
-
-        public bool FirstBoolValue()
-        {
-            return BoolValues[0].Value;
+            CptNumberValue? val = NumberValues.FirstOrDefault();
+            if (val != null)
+            {
+                return val.Value;
+            }
+            return 0;
         }
         public byte[] FirstBytesValue()
         {
-            return BytesValues[0].Value;
+
+            CptBytesValue? val = BytesValues.FirstOrDefault();
+            if (val != null)
+            {
+                return val.Value;
+            }
+            return Array.Empty<byte>();
         }
-        public void SetSingleValue(string value, bool objName = false)
+        public void SetSingleValue(string value)
         {
-            if (objName)
+            CptStringValue? v = StringValues.FirstOrDefault();
+            
+            if(v == null)
             {
-                ObjNameValues[0].Value = value;
+                v = new(value);
+                v.Owner = this;
+                StringValues.Add(v);
             }
-            else
-            {
-                StringValues[0].Value = value;
-            }
+            v.Value = value;
+
         }
         public void SetSingleValue(double value)
         {
-            NumberValues[0].Value = value;
-        }
-        public void SetSingleValue(int value)
-        {
-            NumberValues[0].Value = value;
-        }
-        public void SetSingleValue(bool value)
-        {
-            BoolValues[0].Value = value; ;
+            CptNumberValue? v = NumberValues.FirstOrDefault();
+            if (v == null)
+            {
+                v = new(value);
+                v.Owner = this;
+                NumberValues.Add(v);
+            }
+            v.Value = value;
+
         }
         public void SetSingleValue(byte[] value)
         {
-            BytesValues[0].Value = value; ;
+            CptBytesValue? v = BytesValues.FirstOrDefault();
+            if (v == null)
+            {
+                v = new(value);
+                v.Owner = this;
+                BytesValues.Add(v);
+            }
+            v.Value = value;
         }
     }
 }

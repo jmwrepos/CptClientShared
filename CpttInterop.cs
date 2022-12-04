@@ -80,54 +80,6 @@ namespace CptClientShared
             }
         }
 
-        public void HandleUserQuery(CptUserQuery uQuery)
-        {
-            QueryResponse qr = uQuery.Response;
-            switch (uQuery.Operation)
-            {
-                case CpUQueryOperation.Unspecifed:
-                    FailOnError(uQuery, "Operation Not Specified");
-                    break;
-                case CpUQueryOperation.ListLibraries:
-                    foreach(CptLibrary lib in uQuery.User.Account.Libraries)
-                    {
-                        qr.AddListItem(lib.Name);
-                        SaveOnSuccess(uQuery, "Libraries listed in Response.List");
-                    }
-                    break;
-            }
-        }
-
-        //GENERAL METHODS
-        private void SaveOnSuccess(CptUserQuery uQuery, string msg)
-        {
-            QueryResponse response = uQuery.Response;
-            try
-            {
-                _dbProvider.CurrentContext.SaveChanges();
-                response.Success = true;
-                response.AddMessage(msg);
-            }
-            catch (Exception e)
-            {
-                FailOnException(uQuery, e);
-            }
-        }
-        private void FailOnException(CptUserQuery uQuery, Exception e)
-        {
-            QueryResponse response = uQuery.Response;
-            response.Success = false;
-            response.AddMessage("An application exception occured. Exception follows.");
-            response.AddMessage(e.ToString());
-        }
-        private void FailOnError(CptUserQuery uQuery, string errMsg)
-        {
-            QueryResponse response = uQuery.Response;
-            response.Success = false;
-            response.AddMessage("An error occured. Details follow.");
-            response.AddMessage(errMsg);
-        }
-
         public void AssertModel(UserModel model, QueryResponse qr)
         {
             try
@@ -179,22 +131,9 @@ namespace CptClientShared
                 qr.Success = false;
             }
         }
-        public void CreateNewObject(QfNewObj form)
-        {
-            CpSession? session = _sessionServ.GetSession(form.SessionId);
-        }
         public void UserSave()
         {
             _dbProvider.CurrentContext.SaveChanges();
         }
-        private bool ObjectExists(CptLibrary library, string objName) => library.Objects.Any(o => o.Name == objName);
-        private bool PropExists(CptLibrary lib, string name) => lib.Properties.Any(p => p.Name == name);
-        private bool AcctExists(string name) => _dbProvider.CurrentContext.Accounts.Any(a => a.AccountName == name);
-        private bool ObjTypeExists(CptLibrary lib, string name) => lib.ObjectTypes.Any(ot => ot.Name == name);
-        private bool LibraryExists(CptAccount acct, string name) => acct.Libraries.Any(lib => lib.Name == name);
-        private CptLibrary GetLibrary(CptAccount acct, string name) => acct.Libraries.Where(l => l.Name == name).First();
-        private CptProperty GetProperty(CptLibrary lib, string name) => lib.Properties.Where(p => p.Name == name).First();
-        private CptObject GetObject(CptLibrary lib, string name) => lib.Objects.Where(o => o.Name == name).First();
-        private CptAccount GetAccount(string name) => _dbProvider.CurrentContext.Accounts.Where(a => a.AccountName == name).First();
     }
 }
